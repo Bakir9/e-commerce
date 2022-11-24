@@ -2,6 +2,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Core.Interfaces;
+using API.Helpers;
 
 namespace API
 {
@@ -22,6 +23,8 @@ namespace API
             //repository ce biti kreiran kad http request dodje do API-a, kreira se nova instanca kontrolera, kontroler zna da mora traziti repository,
             //kreira instancu repositorya i traje dok request ne zavrsi
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => 
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
@@ -46,6 +49,7 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
