@@ -18,6 +18,7 @@
     ]
   },
   "angularCompilerOptions": {
+    "strictDomEventTypes": false, //turn off strict type cheking for events inside Angular template
     "enableI18nLegacyMessageIdFormat": false
   }
 }

@@ -34,11 +34,11 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        //nesto kao middleware, redoslijed je bitan
+        //middleware, redoslijed je bitan
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
-            //kad se desi error koji nije definisan, vodi nas u errorcontroller koji nam vraca response kao sto je definisan u apiresponse klasi
+            //error koji nije definisan -> errorcontroller vraca response kao sto je definisan u apiresponse klasi
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
             app.UseRouting();
