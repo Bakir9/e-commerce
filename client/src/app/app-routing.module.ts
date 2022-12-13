@@ -15,11 +15,13 @@ const routes: Routes = [
     data: {breadcrumb: 'Shop'}},                                                                   //shop.module will be activated and loaded when we access shop path
   {path: 'basket', loadChildren: () => import('./basket/basket.module').then(mod => mod.BasketModule),
     data: {basket: 'Shop'}},
-  {path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(mod => mod.CheckoutModule),
+  {path: 'checkout', 
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./checkout/checkout.module')
+      .then(mod => mod.CheckoutModule),
     data: {breadcrumb: 'Checkout'}},  
   {
     path: 'account',
-    canActivate: [AuthGuard],
     loadChildren: () => import('./account/account.module')
       .then(mod => mod.AccountModule), data: {breadcrumb: {skip: true}}
   },  
