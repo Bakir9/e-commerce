@@ -11,10 +11,12 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptors } from './core/interceptors/loading.interceptors';
 import { JwtInterceptors } from './core/interceptors/jwt.interceptor';
+import { OrderDetailedComponent } from './orders/order-detailed/order-detailed.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        OrderDetailedComponent
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
