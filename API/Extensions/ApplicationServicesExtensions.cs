@@ -11,6 +11,7 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             //repository ce biti kreiran kad http request dodje do API-a, kreira se nova instanca kontrolera, kontroler zna da mora traziti repository,
             //kreira instancu repositorya i traje dok request ne zavrsi
             services.AddScoped<ITokenService, TokenService>();
