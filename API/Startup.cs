@@ -5,6 +5,7 @@ using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
 using Infrastructure.Identity;
+using Microsoft.Extensions.FileProviders;
 
 namespace API
 {
@@ -22,10 +23,12 @@ namespace API
         {
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             services.AddDbContext<StoreContext>(x => 
-                x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+                x.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<AppIdentityDbContext>(x => {
-                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+                x.UseNpgsql(_config.GetConnectionString("IdentityConnection"));
             });
 
             services.AddSingleton<IConnectionMultiplexer>(c => {
@@ -54,13 +57,21 @@ namespace API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions 
+            {
+              FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),  RequestPath = "/content"
+            });
+
+            app.UseCors("CorsPolicy");
+
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
+            
             app.UseSwaggerDocumentation();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers();   
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

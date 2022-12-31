@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
 using Core.Entities.OrderAggregate;
+using System.Reflection;
 
 namespace Infrastructure.Data
 {
@@ -14,10 +15,12 @@ namespace Infrastructure.Data
         {
             try
             {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
                 if(!context.ProductBrand.Any())
                 {
                     var brandsData = 
-                        File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
+                        File.ReadAllText(path + @"/Data/SeedData/brands.json");
 
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
@@ -32,7 +35,7 @@ namespace Infrastructure.Data
                 if(!context.ProductType.Any())
                 {
                     var typesData = 
-                        File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
+                        File.ReadAllText(path + @"/Data/SeedData/types.json");
 
                     var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
 
@@ -47,7 +50,7 @@ namespace Infrastructure.Data
                 if(!context.Products.Any())
                 {
                     var productsData = 
-                        File.ReadAllText("../Infrastructure/Data/SeedData/products.json");
+                        File.ReadAllText(path + @"/Data/SeedData/products.json");
 
                     var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
@@ -62,7 +65,7 @@ namespace Infrastructure.Data
                 if(!context.DeliveryMethods.Any())
                 {
                     var dmData = 
-                        File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+                        File.ReadAllText(path + @"/Data/SeedData/delivery.json");
 
                     var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
 

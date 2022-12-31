@@ -94,7 +94,7 @@ namespace Infrastructure.Services
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
 
             if(order == null) return null;
-
+            
             order.Status = OrderStatus.PaymentRecevied;
             _unitOfWork.Repository<Order>().Update(order);
 
